@@ -154,7 +154,18 @@ return {
     { "folke/which-key.nvim",
         event = "VeryLazy",
         config = function()
-            require("which-key").setup()
-        end
+            local wk = require("which-key")
+            wk.setup()
+
+            wk.add({
+                { "<leader>b", group = "Buffers", icon = "󰓩 " },
+                { "<leader>d", group = "Diagnostics"},
+                { "<leader>e", group = "Explorer", icon = "󰙅 " },
+                { "<leader>f", group = "Find", icon = "󰍉 " },
+                { "<leader>g", group = "Git"},
+                { "<leader>t", group = "Terminal"},
+                { "<leader>s", group = "Split"},
+            })
+        end,
     }
 }

@@ -44,20 +44,30 @@ map('n', '<leader>cc', function() vim.cmd.cclos() end, { noremap = true })
 --- Splits
 --------------------------------------------------
 
-map('n', '<leader>sv', ':vsplit<CR>')
-map('n', '<leader>sh', ':split<CR>')
+map('n', '<leader>sv', '<cmd>vsplit<CR>', { desc = "Vertical split" })
+map('n', '<leader>sh', '<cmd>split<CR>', { desc = "Horizontal split" })
+map('n', '<leader>sc', '<cmd>close<CR>', { desc = "Close window" })
+map('n', '<leader>so', '<cmd>only<CR>', { desc = "Close other splits" })
 
 --------------------------------------------------
 --- Diagnostics
 --------------------------------------------------
 
-map('n', '[d', vim.diagnostic.goto_prev)
-map('n', ']d', vim.diagnostic.goto_next)
+map('n', '[d', vim.diagnostic.goto_prev, { desc = "Next diagnostic" })
+map('n', ']d', vim.diagnostic.goto_next, { desc = "Prev diagnostic" })
+map("n", "]e", function()
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Next error" })
 
-map('n', '<leader>e', vim.diagnostic.open_float)
-map('n', '<leader>q', vim.diagnostic.setloclist)
+map("n", "[e", function()
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Prev error" })
 
-map("n", "<leader>xx", "<cmd>Touble diagnostics toggle<CR>", { desc = "Diagnostics panel" })
+map('n', '<leader>dl', vim.diagnostic.open_float, { desc = "Line diagnostics" })
+map('n', '<leader>df', vim.diagnostic.setloclist, { desc = "File diagnostics" })
+map("n", "<leader>dw", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Workspace diagnostics" })
+map("n", "<leader>dt", function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = "Toggle disagnostics" })
+map("n", "<leader>dq", function() vim.diagnostic.setqflist() end, { desc = "Quickfix" })
 
 --------------------------------------------------
 --- Buffers
@@ -68,16 +78,18 @@ map("n", "<S-h>", ":bprevious<CR>")
 map("n", "<leader>bd", function()
     require("mini.bufremove").delete(0, false)
 end, { desc = "Delete buffer" })
+map("n", "<leader>bo", "<cmd>%bd|e#|bd#<CR>", { desc = "Close all other buffers" })
 
 --------------------------------------------------
 --- Telescope
 --------------------------------------------------
 
-map('n', '<leader>ff', telescope.find_files)
-map('n', '<leader>fg', require('telescope').extensions.live_grep_args.live_grep_args)
-map('n', '<leader>fr', telescope.resume)
-map('n', '<leader>fb', telescope.buffers)
-map('n', '<leader>fs', telescope.lsp_document_symbols)
+map('n', '<leader>ff', telescope.find_files, { desc = "Files"} )
+map('n', '<leader>fg', require('telescope').extensions.live_grep_args.live_grep_args, { desc = "Grep" })
+map('n', '<leader>fr', telescope.resume, { desc = "Resume" })
+map('n', '<leader>fb', telescope.buffers, { desc = "Buffers" })
+map('n', '<leader>fs', telescope.lsp_document_symbols, { desc = "Symbols" })
+map('n', '<leader>fw', telescope.grep_string, { desc = "Word" })
 
 --------------------------------------------------
 --- Git
@@ -90,7 +102,7 @@ map("n", "<leader>gb", function()
     gitsigns.toggle_current_line_blame()
 end, { desc = "Toggle git blame (line)" })
 
-map("n", "<leader>lg", "<cmd>LazyGit<CR>", { desc = "LazyGit" })
+map("n", "<leader>gg", "<cmd>LazyGit<CR>", { desc = "LazyGit" })
 
 --------------------------------------------------
 --- Comments
@@ -136,3 +148,11 @@ end, { desc = "Floating terminal" })
 --     toggleterm.exec('./goto_docker.sh /tmp "make clean"', 1)
 -- end, { desc = "Run make clean" })
 
+--------------------------------------------------
+--- File Explorer
+--------------------------------------------------
+
+map("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle Explorer" })
+map("n", "<leader>ef", "<cmd>NvimTreeFindFile<CR>", { desc = "Find Current File" })
+map("n", "<leader>et", "<cmd>NvimTreeFocus<CR>", { desc = "Focus Explorer" })
+map("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh Explorer" })
