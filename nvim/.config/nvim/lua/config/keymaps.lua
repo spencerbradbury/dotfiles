@@ -66,7 +66,7 @@ map("n", "<leader>xx", "<cmd>Touble diagnostics toggle<CR>", { desc = "Diagnosti
 map("n", "<S-l>", ":bnext<CR>")
 map("n", "<S-h>", ":bprevious<CR>")
 map("n", "<leader>bd", function()
-    require("minibuf.remove").delete(0, false)
+    require("mini.bufremove").delete(0, false)
 end, { desc = "Delete buffer" })
 
 --------------------------------------------------
