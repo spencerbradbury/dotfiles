@@ -90,12 +90,23 @@ return {
     { "akinsho/bufferline.nvim",
         version = "*",
         dependencies = "nvim-tree/nvim-web-devicons",
-        config = function()
-            require("bufferline").setup()
-            vim.keymap.set("n", "<S-l>", ":bnext<CR>")
-            vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
-            vim.keymap.set("n", "<leader>x", ":bd<CR>")
-        end
+        opts = {
+            options = {
+                offsets = {
+                    {
+                        filetype = "NvimTree",
+                        text = "File Explorer",
+                        highlight = "Directory",
+                        separator = true,
+                    },
+                },
+            },
+        },
+    },
+
+    -- Remove Buffer
+    { "echasnovski/mini.bufremove",
+        version = false,
     },
 
     -- File Tree
@@ -139,7 +150,6 @@ return {
         end,
     },
 
-
     -- Leader key popup
     { "folke/which-key.nvim",
         event = "VeryLazy",
@@ -147,6 +157,4 @@ return {
             require("which-key").setup()
         end
     }
-
-
 }
