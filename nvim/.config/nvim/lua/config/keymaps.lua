@@ -7,6 +7,7 @@ local telescope = require("telescope.builtin")
 local gitsigns = require("gitsigns")
 local toggleterm = require("toggleterm")
 local comment = require("Comment.api")
+local flash = require("flash")
 
 
 --------------------------------------------------
@@ -41,6 +42,11 @@ map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 map('n', '<leader>cc', function() vim.cmd.cclos() end, { noremap = true })
 
 map('x', '<leader>p', [["_dP]])
+
+map({'n', 'x', 'o'}, 's', function() flash.jump() end, { desc = "Flash" })
+map({'n', 'x', 'o'}, 'S', function() flash.treesitter() end, { desc = "Flash treesitter" })
+map('o', 'r', function() flash.remote() end, { desc = "Remote Flash" })
+map({'x', 'o'}, 'R', function() flash.treesitter_search() end, { desc = "Treesitter Search" })
 
 --------------------------------------------------
 --- Splits
@@ -158,3 +164,6 @@ map("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle Explorer" })
 map("n", "<leader>ef", "<cmd>NvimTreeFindFile<CR>", { desc = "Find Current File" })
 map("n", "<leader>et", "<cmd>NvimTreeFocus<CR>", { desc = "Focus Explorer" })
 map("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh Explorer" })
+
+map("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
+map("n", "<leader>e-", function() require("oil").toggle_float() end, { desc = "Oil Float" })
