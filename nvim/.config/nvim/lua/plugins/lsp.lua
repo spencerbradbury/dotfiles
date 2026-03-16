@@ -11,11 +11,6 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "pyright", "clangd", "ts_ls", "gopls" },
-      })
-    end,
   },
 
   -- 3. Autocompletion & Snippets
@@ -65,12 +60,15 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "williamboman/mason-lspconfig.nvim",
+        "nvim-telescope/telescope-ui-select.nvim",
+    },
     config = function()
       -- 1. Setup our on_attach function
       local on_attach = function(client, bufnr)
         local opts = { noremap = true, silent = true, buffer = bufnr }
-
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
@@ -83,40 +81,33 @@ return {
           vim.keymap.set("n", "gd", builtin.lsp_definitions, opts)
           vim.keymap.set("n", "gr", builtin.lsp_references, opts)
           vim.keymap.set("n", "gi", builtin.lsp_implementations, opts)
-          vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, opts)
-          vim.keymap.set("n", "<leader>ws", builtin.lsp_workspace_symbols, opts)
         end
       end
       -- 2. Capabilities for autocompletion
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- 3. Use the NEW native way to avoid the deprecation warning
-      -- We define a table of servers and their specific configs
       local servers = {
         clangd = {
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--header-insertion=never",
-            "--fallback-style=llvm"
-          },
-          -- This tells it exactly where your project root is
-          root_markers = { ".git", ".clangd", "Makefile", "compile_commands.json" },
+          cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=never", "--fallback-style=llvm" },
+          root_markers = { ".git", ".clangd", "compile_commands.json" },
         },
         pyright = {},
         ts_ls = {},
+        gopls = {},
         lua_ls = {
           settings = { Lua = { diagnostics = { globals = { "vim" } } } }
         }
       }
 
+      require("mason-lspconfig").setup({
+          ensure_installed = vim.tbl_keys(servers),
+      })
+
       -- 4. Register the configs using the new native API
       for name, config in pairs(servers) do
         config.capabilities = capabilities
         config.on_attach = on_attach
-
-        -- This is the "new" way (nvim 0.11+) that replaces require('lspconfig')[name].setup()
         vim.lsp.config(name, config)
       end
 
