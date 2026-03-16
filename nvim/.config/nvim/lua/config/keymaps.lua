@@ -40,6 +40,8 @@ map('n', 'N', 'Nzzzv')
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 map('n', '<leader>cc', function() vim.cmd.cclos() end, { noremap = true })
 
+map('x', '<leader>p', [["_dP]])
+
 --------------------------------------------------
 --- Splits
 --------------------------------------------------
