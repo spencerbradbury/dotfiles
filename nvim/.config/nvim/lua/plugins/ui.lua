@@ -159,13 +159,51 @@ return {
 
             wk.add({
                 { "<leader>b", group = "Buffers", icon = "󰓩 " },
+                { "<leader>c", group = "Copilot", icon = " " },                            
                 { "<leader>d", group = "Diagnostics"},
                 { "<leader>e", group = "Explorer", icon = "󰙅 " },
                 { "<leader>f", group = "Find", icon = "󰍉 " },
-                { "<leader>g", group = "Git"},
-                { "<leader>t", group = "Terminal"},
-                { "<leader>s", group = "Split"},
+                { "<leader>g", group = "Git" },
+                { "<leader>l", group = "LSP" },
+                { "<leader>s", group = "Split" },
+                { "<leader>t", group = "Terminal" },
             })
         end,
-    }
+    },
+
+    -- Copilot Chat
+    {
+        "CopilotC-Nvim/CopilotChat.nvim",
+        dependencies = {
+            { "zbirenbaum/copilot.lua" },
+            { "nvim-lua/plenary.nvim" },
+        },
+        build = "make tiktoken",
+        opts = {
+            debug = false,
+            model = "gpt-4.1",
+            temperature = 0.1,
+            Question_header = "# User ",
+            Answer_header = "# Copilot ",
+            default_window_config = {
+                relative = "editor",
+                position = { row = 1, col = 0 },
+                size = {
+                    width = "0.8",
+                    height = "0.6",
+                },
+            },
+            show_help = true,
+            show_folds = true,
+            highlight_selection = true,
+            highlight_insertion = true,
+            auto_follow_cursor = false,
+            auto_insert_mode = false,
+            insert_at_end = false,
+            clear_chat_on_new_prompt = false,
+        },
+        config = function(_, opts)
+            require("CopilotChat").setup(opts)
+        end,
+    },
 }

@@ -1,4 +1,60 @@
 return {
+  -- 0. Copilot Completion Core
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    opts = {
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        debounce = 75,
+        keymap = {
+          accept = "<C-l>",
+          accept_word = false,
+          accept_line = false,
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<C-]>",
+        },
+      },
+      panel = {
+        enabled = true,
+        auto_refresh = false,
+        keymap = {
+          jump_prev = "[[",
+          jump_next = "]]",
+          accept = "<CR>",
+          refresh = "gr",
+          open = "<M-CR>",
+        },
+        layout = {
+          position = "right",
+          ratio = 0.3,
+        },
+      },
+      filetypes = {
+        help = false,
+        gitcommit = false,
+        gitrebase = false,
+        hgcommit = false,
+        svn = false,
+        cvs = false,
+        ["."] = false,
+      },
+      copilot_node_command = "node",
+    },
+  },
+
+  -- 0.1 Copilot source for nvim-cmp
+  {
+    "zbirenbaum/copilot-cmp",
+    dependencies = { "zbirenbaum/copilot.lua", "hrsh7th/nvim-cmp" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
+
   -- 1. Mason Core
   {
     "williamboman/mason.nvim",
@@ -43,6 +99,7 @@ return {
           end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
+          { name = "copilot", priority = 100 },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
@@ -68,19 +125,18 @@ return {
     config = function()
       -- 1. Setup our on_attach function
       local on_attach = function(client, bufnr)
-        local opts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, opts)
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover" })
+        vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
+        vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code actions" })
+        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { buffer = bufnr, desc = "Format" })
 
         -- Telescope-powered navigation
         local ok, builtin = pcall(require, "telescope.builtin")
         if ok then
-          vim.keymap.set("n", "gd", builtin.lsp_definitions, opts)
-          vim.keymap.set("n", "gr", builtin.lsp_references, opts)
-          vim.keymap.set("n", "gi", builtin.lsp_implementations, opts)
+          vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = bufnr, desc = "Go to definition" })
+          vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = bufnr, desc = "Go to references" })
+          vim.keymap.set("n", "gi", builtin.lsp_implementations, { buffer = bufnr, desc = "Go to implementation" })
         end
       end
       -- 2. Capabilities for autocompletion

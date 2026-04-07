@@ -39,7 +39,7 @@ map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
-map('n', '<leader>cc', function() vim.cmd.cclos() end, { noremap = true })
+map('n', '<C-q>', function() vim.cmd.cclose() end, { noremap = true, desc = "Close quickfix" })
 
 map('x', '<leader>p', [["_dP]])
 
@@ -167,3 +167,19 @@ map("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh Explorer" }
 
 map("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
 map("n", "<leader>e-", function() require("oil").toggle_float() end, { desc = "Oil Float" })
+
+--------------------------------------------------
+--- Copilot Chat
+--------------------------------------------------
+
+map("n", "<leader>cc", ":CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat" })
+map("v", "<leader>cc", ":CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat (visual)" })
+map("n", "<leader>ce", ":CopilotChatExplain<CR>", { desc = "Explain code" })
+map("n", "<leader>cr", ":CopilotChatReview<CR>", { desc = "Review code" })
+map("n", "<leader>cf", ":CopilotChatFix<CR>", { desc = "Fix code" })
+map("n", "<leader>co", ":CopilotChatOptimize<CR>", { desc = "Optimize code" })
+map("n", "<leader>cd", ":CopilotChatDocs<CR>", { desc = "Generate docs" })
+map("n", "<leader>ct", ":CopilotChatTests<CR>", { desc = "Generate tests" })
+map("n", "<leader>ca", ":CopilotAddDir ", { desc = "Add directory context" })
+map("n", "<leader>cA", ":CopilotAddFile ", { desc = "Add file context" })
+map("n", "<leader>cx", ":CopilotAddGit<CR>", { desc = "Add git repo context" })
