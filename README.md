@@ -34,15 +34,20 @@ brew install stow       # macOS
 From the root of this repo:
 
 **Stow (create symlinks)**
+
 ```
 stow zsh
 stow nvim
 ```
+
 **Unstow (remove symlinks)**
+
 ```
 stow -D zsh
 ```
+
 **Restow (relink after changes)**
+
 ```
 stow -R zsh
 ```
