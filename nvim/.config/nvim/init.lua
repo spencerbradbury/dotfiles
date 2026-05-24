@@ -4,6 +4,10 @@
 -- NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 
+-- Disable unused providers (suppresses checkhealth warnings)
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 require("config.lazy")
 require("config.keymaps")
 require("config.copilot-commands")
@@ -87,6 +91,7 @@ vim.opt.smartindent = true
 -- UI
 vim.o.showmatch = true
 vim.o.wildmode = "longest,list"
+vim.opt.termguicolors = true   -- 24-bit color (required for themes inside tmux)
 
 -- File handling
 vim.cmd("filetype plugin indent on")

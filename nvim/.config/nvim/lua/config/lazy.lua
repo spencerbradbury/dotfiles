@@ -35,4 +35,5 @@ require("lazy").setup({
   performance = {
     cache = { enabled = true },
   },
+  rocks = { hererocks = false },  -- no plugins need luarocks; suppresses install warning
 })

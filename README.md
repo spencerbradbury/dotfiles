@@ -7,8 +7,10 @@ Each folder represents a “package” of configs:
 ```
 dotfiles/
 ├── nvim/
-├── zsh/
-├── git/
+├── fish/
+├── bash/
+├── lazygit/
+├── tmux/
 ```
 
 Inside each package, files are laid out as they should appear in `$HOME`:

@@ -1,0 +1,117 @@
+# Alacritty config for a tmux + nvim + Hermes workflow.
+# Mirrors your GNOME Terminal profile where it makes sense:
+#   - shell: fish
+#   - font: JetBrainsMono Nerd Font, 12pt
+#   - default size: 80x24
+#   - cursor: block
+#   - scrollback: 100000 lines
+# Alacritty is intentionally the terminal emulator only; tmux owns panes/windows/sessions.
+
+[env]
+# Helps tmux/nvim/Hermes get 24-bit color and the right terminfo behavior.
+TERM = "xterm-256color"
+
+[shell]
+program = "/usr/bin/fish"
+
+[window]
+dynamic_title = true
+decorations = "Full"
+# GNOME Terminal profile was non-transparent. Keep Alacritty opaque too.
+opacity = 1.0
+# GNOME Terminal has minimal/no padding; keep this tight for tmux/nvim screen real estate.
+padding = { x = 2, y = 2 }
+# Match GNOME Terminal's default profile geometry.
+dimensions = { columns = 80, lines = 24 }
+
+[scrolling]
+# Matches your GNOME Terminal profile. Inside tmux, tmux history-limit still controls pane scrollback.
+history = 100000
+multiplier = 3
+
+[font]
+# Alacritty does not support ligatures, but Nerd Font glyphs/icons work fine.
+size = 12.0
+
+[font.normal]
+# Your GNOME Terminal profile is set to "JetBrainsMono Nerd Font Bold Italic 12".
+# Use the same family but regular weight by default so bold/italic terminal attributes still work normally.
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+[colors.primary]
+# bamboo.nvim vulgaris palette, matching your Neovim theme.
+# Source: ribru17/bamboo.nvim palette/extras for Alacritty.
+background = "#252623"
+foreground = "#f1e9d2"
+
+[colors.cursor]
+text = "CellBackground"
+cursor = "CellForeground"
+
+[colors.selection]
+text = "CellBackground"
+background = "CellForeground"
+
+[colors.normal]
+black = "#1c1e1b"
+red = "#e75a7c"
+green = "#8fb573"
+yellow = "#dbb651"
+blue = "#57a5e5"
+magenta = "#aaaaff"
+cyan = "#70c2be"
+white = "#f1e9d2"
+
+[colors.bright]
+black = "#5b5e5a"
+red = "#e75a7c"
+green = "#8fb573"
+yellow = "#dbb651"
+blue = "#57a5e5"
+magenta = "#aaaaff"
+cyan = "#70c2be"
+white = "#fff8f0"
+
+[cursor]
+# Match GNOME Terminal profile: block cursor. Blink follows Alacritty setting rather than GNOME system setting.
+style = { shape = "Block", blinking = "On" }
+blink_interval = 500
+unfocused_hollow = true
+
+[selection]
+save_to_clipboard = true
+
+[mouse]
+# Avoid Alacritty/Wayland/GNOME cursor-hide glitches where the pointer can stay invisible
+# over terminal windows after typing.
+hide_when_typing = false
+
+[bell]
+# GNOME profile has audible bell enabled. Alacritty's visual bell stays disabled.
+duration = 0
+
+[keyboard]
+bindings = [
+  # Familiar GNOME Terminal-style clipboard shortcuts.
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+
+  # Familiar GNOME Terminal-style font size controls.
+  { key = "Equals", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Plus", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
+  { key = "Key0", mods = "Control", action = "ResetFontSize" },
+]

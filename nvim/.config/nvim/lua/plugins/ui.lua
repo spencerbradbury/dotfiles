@@ -104,6 +104,12 @@ return {
         },
     },
 
+    -- Icons (used by which-key and other UI plugins)
+    { "echasnovski/mini.icons",
+        version = false,
+        config = function() require("mini.icons").setup() end,
+    },
+
     -- Remove Buffer
     { "echasnovski/mini.bufremove",
         version = false,
@@ -205,5 +211,13 @@ return {
         config = function(_, opts)
             require("CopilotChat").setup(opts)
         end,
+    },
+
+    -- Markdown in-buffer rendering
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+        ft = { "markdown", "copilot-chat" },
+        opts = {},
     },
 }

@@ -6,7 +6,6 @@ local map = vim.keymap.set
 local telescope = require("telescope.builtin")
 local gitsigns = require("gitsigns")
 local toggleterm = require("toggleterm")
-local comment = require("Comment.api")
 local flash = require("flash")
 
 
@@ -116,21 +115,9 @@ map("n", "<leader>gg", "<cmd>LazyGit<CR>", { desc = "LazyGit" })
 --- Comments
 --------------------------------------------------
 
-map("n", "<C-_>", comment.toggle.linewise.current, { silent = true, desc = "Toggle comment current line" })
-
-map("v", "<C-_>", function()
-    comment.toggle.linewise(vim.fn.visalmode())
-end, { silent = true, desc = "Toggle comment visual mode" })
-
-map("i", "<C-_>", function()
-    vim.api.nvim_feedkeys(
-        vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
-        "n",
-        false
-    )
-    comment.toggle.linewise.current()
-    vim.api.nvim_feedkeys("i", "n", false)
-end, { silent = true, desc = "Toggle comment (insert)" })
+map("n", "<C-_>", "gcc", { silent = true, remap = true, desc = "Toggle comment current line" })
+map("v", "<C-_>", "gc",  { silent = true, remap = true, desc = "Toggle comment visual mode" })
+map("i", "<C-_>", "<C-o>gcc", { silent = true, remap = true, desc = "Toggle comment (insert)" })
 
 --------------------------------------------------
 --- Toggle term
