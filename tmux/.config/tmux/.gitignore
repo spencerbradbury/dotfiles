@@ -1,0 +1,5 @@
+# TPM and installed plugins are bootstrapped per-machine, not tracked.
+# Bootstrap on a new machine:
+#   git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+#   then inside tmux: prefix + I   (capital i) to install the rest
+plugins/
