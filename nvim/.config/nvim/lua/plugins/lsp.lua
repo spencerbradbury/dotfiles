@@ -1,7 +1,10 @@
+local ai = require("config.ai")
+
 return {
-  -- 0. Copilot Completion Core
+  -- 0. Copilot Completion Core (only when signed into GitHub Copilot)
   {
     "zbirenbaum/copilot.lua",
+    cond = ai.copilot_signed_in,
     cmd = "Copilot",
     event = "InsertEnter",
     opts = {
@@ -46,12 +49,23 @@ return {
     },
   },
 
-  -- 0.1 Copilot source for nvim-cmp
+  -- 0.1 Supermaven: free ghost-text completion, used when NOT signed into Copilot.
   {
-    "zbirenbaum/copilot-cmp",
-    dependencies = { "zbirenbaum/copilot.lua", "hrsh7th/nvim-cmp" },
+    "supermaven-inc/supermaven-nvim",
+    cond = function() return not ai.copilot_signed_in() end,
+    event = "InsertEnter",
     config = function()
-      require("copilot_cmp").setup()
+      require("supermaven-nvim").setup({
+        -- Match Copilot's keymaps so muscle memory is identical:
+        --   <C-l> accept, <C-]> dismiss, ghost text inline.
+        keymaps = {
+          accept_suggestion = "<C-l>",
+          clear_suggestion = "<C-]>",
+        },
+        -- Ghost text inline (NOT through nvim-cmp), same UX as copilot.lua.
+        disable_inline_completion = false,
+        disable_keymaps = false,
+      })
     end,
   },
 
@@ -99,7 +113,6 @@ return {
           end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
-          { name = "copilot", priority = 100 },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },

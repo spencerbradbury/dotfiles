@@ -156,17 +156,16 @@ map("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
 map("n", "<leader>e-", function() require("oil").toggle_float() end, { desc = "Oil Float" })
 
 --------------------------------------------------
---- Copilot Chat
+--- AI Completion (Copilot / Supermaven)
 --------------------------------------------------
 
-map("n", "<leader>cc", ":CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat" })
-map("v", "<leader>cc", ":CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat (visual)" })
-map("n", "<leader>ce", ":CopilotChatExplain<CR>", { desc = "Explain code" })
-map("n", "<leader>cr", ":CopilotChatReview<CR>", { desc = "Review code" })
-map("n", "<leader>cf", ":CopilotChatFix<CR>", { desc = "Fix code" })
-map("n", "<leader>co", ":CopilotChatOptimize<CR>", { desc = "Optimize code" })
-map("n", "<leader>cd", ":CopilotChatDocs<CR>", { desc = "Generate docs" })
-map("n", "<leader>ct", ":CopilotChatTests<CR>", { desc = "Generate tests" })
-map("n", "<leader>ca", ":CopilotAddDir ", { desc = "Add directory context" })
-map("n", "<leader>cA", ":CopilotAddFile ", { desc = "Add file context" })
-map("n", "<leader>cx", ":CopilotAddGit<CR>", { desc = "Add git repo context" })
+-- Show which inline-completion engine is active and why.
+map("n", "<leader>cs", function()
+  local ai = require("config.ai")
+  local engine = ai.engine()
+  local override = vim.g.ai_completion
+  local reason = override and ("override: vim.g.ai_completion = " .. override)
+    or (ai.copilot_signed_in() and "Copilot OAuth token found" or "no Copilot token -> free tier")
+  vim.notify(("AI completion: %s  (%s)"):format(engine, reason), vim.log.levels.INFO)
+end, { desc = "AI completion status" })
+

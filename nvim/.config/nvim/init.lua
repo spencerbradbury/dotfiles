@@ -10,7 +10,6 @@ vim.g.loaded_ruby_provider = 0
 
 require("config.lazy")
 require("config.keymaps")
-require("config.copilot-commands")
 
 -- [[ Setting options ]] See `:h vim.o`
 -- NOTE: You can change these options as you wish!
