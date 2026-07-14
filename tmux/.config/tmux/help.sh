@@ -23,6 +23,7 @@ ${C}── Windows ────────────────────�
   ${B}c${R}         New window (opens in current dir)
   ${B}n / p${R}     Next / previous window
   ${B}Space${R}     Last used window
+  ${B}< / >${R}     Move window left / right (repeatable)
   ${B},${R}         Rename window
   ${B}&${R}         Kill window
   ${B}1-9${R}       Jump to window by number
