@@ -173,6 +173,7 @@ return {
                 { "<leader>l", group = "LSP" },
                 { "<leader>s", group = "Split" },
                 { "<leader>t", group = "Terminal" },
+                { "<leader>x", group = "Extras" },
             })
         end,
     },
