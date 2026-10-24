@@ -7,6 +7,17 @@ return {
     cond = ai.copilot_signed_in,
     cmd = "Copilot",
     event = "InsertEnter",
+    keys = {
+      {
+        "<leader>ta",
+        function()
+          require("copilot.suggestion").toggle_auto_trigger()
+          local state = vim.b.copilot_suggestion_auto_trigger
+          vim.notify("Copilot auto-trigger: " .. (state and "ON" or "OFF"))
+        end,
+        desc = "Toggle AI completion (Copilot)",
+      },
+    },
     opts = {
       suggestion = {
         enabled = true,
@@ -54,6 +65,9 @@ return {
     "supermaven-inc/supermaven-nvim",
     cond = function() return not ai.copilot_signed_in() end,
     event = "InsertEnter",
+    keys = {
+      { "<leader>ta", "<cmd>SupermavenToggle<CR>", desc = "Toggle AI completion (Supermaven)" },
+    },
     config = function()
       require("supermaven-nvim").setup({
         -- Match Copilot's keymaps so muscle memory is identical:

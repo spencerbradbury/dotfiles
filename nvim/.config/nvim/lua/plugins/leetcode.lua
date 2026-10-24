@@ -15,6 +15,8 @@ return {
         { "<leader>xt", "<cmd>Leet tabs<CR>", desc = "LeetCode tabs" },
         { "<leader>xp", "<cmd>Leet list<CR>", desc = "LeetCode problem list" },
         { "<leader>xq", "<cmd>Leet exit<CR>", desc = "LeetCode exit" },
+        { "<leader>xi", "<cmd>Leet info<CR>", desc = "LeetCode question info" },
+        { "<leader>xc", "<cmd>Leet console<CR>", desc = "LeetCode console" },
     },
     dependencies = {
         "nvim-telescope/telescope.nvim",
